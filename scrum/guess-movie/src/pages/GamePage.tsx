@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useReducer } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { AnswerOptions } from '../components/AnswerOptions';
 import { QuestionMedia } from '../components/QuestionMedia';
 import { RevealPanel, type RevealStatus } from '../components/RevealPanel';
 import { Timer } from '../components/Timer';
 import { QUESTIONS } from '../data/questions';
+import { filterQuestions, readFilters } from '../game/filters';
 import {
   ANSWER_TIME_SEC,
   buildRound,
@@ -12,23 +13,33 @@ import {
   quizReducer,
   REVEAL_TIME_SEC,
 } from '../game/quiz';
-import { QUESTION_TYPE_LABELS, QUESTION_TYPE_PROMPTS } from '../types/question';
+import { QUESTION_TYPE_LABELS, QUESTION_TYPE_PROMPTS, type Question } from '../types/question';
 import type { ResultState } from './ResultPage';
 import styles from './GamePage.module.css';
 
 export function GamePage() {
+  const { key, search } = useLocation();
+  const questions = filterQuestions(QUESTIONS, readFilters(new URLSearchParams(search)));
+  if (!questions.length) return <Navigate to={{ pathname: '/catalog', search }} replace />;
+  return <QuizRound key={key} bank={questions} search={search} />;
+}
+
+function QuizRound({ bank, search }: { bank: Question[]; search: string }) {
   const navigate = useNavigate();
   const [state, dispatch] = useReducer(quizReducer, undefined, () =>
-    createQuizState(buildRound(QUESTIONS)),
+    createQuizState(buildRound(bank), performance.now()),
   );
 
-  const { questions, index, phase, answers, score } = state;
+  const { questions, index, phase, deadline, answers, score } = state;
   const question = questions[index];
   const answer = phase === 'reveal' ? answers[index] : undefined;
 
-  const handleSelect = useCallback((option: string) => dispatch({ type: 'answer', option }), []);
+  const handleSelect = useCallback(
+    (option: string) => dispatch({ type: 'answer', option, now: performance.now() }),
+    [],
+  );
   const handleTimeout = useCallback(() => dispatch({ type: 'timeout' }), []);
-  const handleNext = useCallback(() => dispatch({ type: 'next' }), []);
+  const handleNext = useCallback(() => dispatch({ type: 'next', now: performance.now() }), []);
 
   // Автопереход к следующему вопросу после показа правильного ответа.
   useEffect(() => {
@@ -46,7 +57,7 @@ export function GamePage() {
   useEffect(() => {
     if (phase !== 'finished') return;
     const result: ResultState = {
-      score,
+      points: score,
       total: questions.length,
       items: questions.map((q, i) => ({
         question: q,
@@ -54,8 +65,8 @@ export function GamePage() {
         correct: answers[i]?.correct ?? false,
       })),
     };
-    navigate('/result', { replace: true, state: result });
-  }, [phase, score, questions, answers, navigate]);
+    navigate({ pathname: '/result', search }, { replace: true, state: result });
+  }, [phase, score, questions, answers, navigate, search]);
 
   // Ответ с клавиатуры: клавиши 1–4.
   useEffect(() => {
@@ -102,6 +113,7 @@ export function GamePage() {
               status={revealStatus}
               title={question.correct}
               year={question.year}
+              points={answer?.points ?? 0}
               durationSec={REVEAL_TIME_SEC}
               isLast={index === questions.length - 1}
               onNext={handleNext}
@@ -111,7 +123,9 @@ export function GamePage() {
 
         {/* Слот таймера фиксированной высоты — после ответа место остаётся, вёрстка не сдвигается. */}
         <div className={styles.timerSlot}>
-          {phase === 'answering' && <Timer durationSec={ANSWER_TIME_SEC} onExpire={handleTimeout} />}
+          {phase === 'answering' && (
+            <Timer deadline={deadline} durationSec={ANSWER_TIME_SEC} onExpire={handleTimeout} />
+          )}
         </div>
 
         <AnswerOptions

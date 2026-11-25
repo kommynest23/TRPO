@@ -4,6 +4,10 @@ import { shuffle } from './shuffle';
 export const ROUND_SIZE = 10;
 export const ANSWER_TIME_SEC = 15;
 export const REVEAL_TIME_SEC = 3;
+export const BASE_POINTS = 100;
+export const MAX_SPEED_BONUS = 50;
+export const SPEED_BONUS_GRACE_SEC = 2;
+export const SPEED_BONUS_DECAY_SEC = ANSWER_TIME_SEC - SPEED_BONUS_GRACE_SEC;
 
 /**
  * Собирает смешанный раунд: вопросы разных типов берутся по очереди
@@ -42,6 +46,7 @@ export interface AnswerRecord {
   /** null — время вышло, ответа не было. */
   selected: string | null;
   correct: boolean;
+  points: number;
 }
 
 export type QuizPhase = 'answering' | 'reveal' | 'finished';
@@ -50,17 +55,25 @@ export interface QuizState {
   questions: Question[];
   index: number;
   phase: QuizPhase;
+  deadline: number;
   answers: AnswerRecord[];
   score: number;
 }
 
 export type QuizAction =
-  | { type: 'answer'; option: string }
+  | { type: 'answer'; option: string; now: number }
   | { type: 'timeout' }
-  | { type: 'next' };
+  | { type: 'next'; now: number };
 
-export function createQuizState(questions: Question[]): QuizState {
-  return { questions, index: 0, phase: 'answering', answers: [], score: 0 };
+export function createQuizState(questions: Question[], now: number): QuizState {
+  return {
+    questions,
+    index: 0,
+    phase: 'answering',
+    deadline: now + ANSWER_TIME_SEC * 1000,
+    answers: [],
+    score: 0,
+  };
 }
 
 export function quizReducer(state: QuizState, action: QuizAction): QuizState {
@@ -69,27 +82,35 @@ export function quizReducer(state: QuizState, action: QuizAction): QuizState {
     case 'timeout': {
       if (state.phase !== 'answering') return state;
       const question = state.questions[state.index];
-      const selected = action.type === 'answer' ? action.option : null;
+      const remainingMs = action.type === 'answer' ? state.deadline - action.now : 0;
+      const selected = action.type === 'answer' && remainingMs > 0 ? action.option : null;
       const correct = selected === question.correct;
+      const fraction = Math.min(1, remainingMs / (SPEED_BONUS_DECAY_SEC * 1000));
+      const points = correct ? BASE_POINTS + Math.round(MAX_SPEED_BONUS * fraction) : 0;
       return {
         ...state,
         phase: 'reveal',
-        answers: [...state.answers, { questionId: question.id, selected, correct }],
-        score: state.score + (correct ? 1 : 0),
+        answers: [...state.answers, { questionId: question.id, selected, correct, points }],
+        score: state.score + points,
       };
     }
     case 'next': {
       if (state.phase !== 'reveal') return state;
       const nextIndex = state.index + 1;
       if (nextIndex >= state.questions.length) return { ...state, phase: 'finished' };
-      return { ...state, index: nextIndex, phase: 'answering' };
+      return {
+        ...state,
+        index: nextIndex,
+        phase: 'answering',
+        deadline: action.now + ANSWER_TIME_SEC * 1000,
+      };
     }
   }
 }
 
-/** Короткий комментарий к итоговому счёту. */
-export function resultVerdict(score: number, total: number): string {
-  const ratio = total === 0 ? 0 : score / total;
+/** Короткий комментарий к доле верных ответов. */
+export function resultVerdict(correctCount: number, total: number): string {
+  const ratio = total === 0 ? 0 : correctCount / total;
   if (ratio === 1) return 'Безупречно! Вы настоящий киноман.';
   if (ratio >= 0.7) return 'Отличный результат — вы явно много смотрите.';
   if (ratio >= 0.4) return 'Неплохо! Ещё пара вечеров с кино — и будет рекорд.';

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { QUESTIONS } from '../data/questions';
-import { buildRound, createQuizState, quizReducer, ROUND_SIZE } from './quiz';
+import { ANSWER_TIME_SEC, buildRound, createQuizState, quizReducer, ROUND_SIZE } from './quiz';
 
 describe('банк вопросов', () => {
   it('у каждого вопроса 4 уникальных варианта и среди них правильный', () => {
@@ -40,36 +40,61 @@ describe('buildRound', () => {
 
 describe('quizReducer', () => {
   const questions = QUESTIONS.slice(0, 2);
+  const start = 1000;
+  const deadline = start + ANSWER_TIME_SEC * 1000;
+  const newRound = () => createQuizState(questions, start);
 
-  it('правильный ответ даёт очко и переводит в фазу показа ответа', () => {
-    const s = quizReducer(createQuizState(questions), { type: 'answer', option: questions[0].correct });
+  it('правильный ответ начисляет базовые очки и бонус за оставшееся время', () => {
+    const s = quizReducer(newRound(), {
+      type: 'answer',
+      option: questions[0].correct,
+      now: deadline - 6500,
+    });
     expect(s.phase).toBe('reveal');
-    expect(s.score).toBe(1);
-    expect(s.answers[0]).toMatchObject({ selected: questions[0].correct, correct: true });
+    expect(s.score).toBe(125);
+    expect(s.answers[0]).toMatchObject({ selected: questions[0].correct, correct: true, points: 125 });
+  });
+
+  it.each([0, 1500, 2000])('сохраняет максимальный бонус через %i мс после начала вопроса', (elapsed) => {
+    const s = quizReducer(newRound(), { type: 'answer', option: questions[0].correct, now: start + elapsed });
+    expect(s.score).toBe(150);
+  });
+
+  it('быстрый верный ответ получает больше очков, чем верный ответ перед истечением времени', () => {
+    const option = questions[0].correct;
+    expect(quizReducer(newRound(), { type: 'answer', option, now: start + 2500 }).score).toBe(148);
+    expect(quizReducer(newRound(), { type: 'answer', option, now: deadline - 1 }).score).toBe(100);
+  });
+
+  it('считает ответ на границе таймера пропущенным до срабатывания тика', () => {
+    const s = quizReducer(newRound(), { type: 'answer', option: questions[0].correct, now: deadline });
+    expect(s.score).toBe(0);
+    expect(s.answers[0]).toMatchObject({ selected: null, correct: false, points: 0 });
   });
 
   it('неверный ответ и таймаут не дают очков', () => {
     const wrong = questions[0].options.find((o) => o !== questions[0].correct)!;
-    let s = quizReducer(createQuizState(questions), { type: 'answer', option: wrong });
+    let s = quizReducer(newRound(), { type: 'answer', option: wrong, now: start });
     expect(s.score).toBe(0);
-    s = quizReducer(s, { type: 'next' });
+    s = quizReducer(s, { type: 'next', now: deadline });
+    expect(s.deadline).toBe(deadline + ANSWER_TIME_SEC * 1000);
     s = quizReducer(s, { type: 'timeout' });
     expect(s.score).toBe(0);
     expect(s.answers[1]).toMatchObject({ selected: null, correct: false });
   });
 
   it('повторный ответ на тот же вопрос игнорируется', () => {
-    let s = quizReducer(createQuizState(questions), { type: 'answer', option: questions[0].correct });
-    s = quizReducer(s, { type: 'answer', option: questions[0].correct });
-    expect(s.score).toBe(1);
+    const action = { type: 'answer', option: questions[0].correct, now: start } as const;
+    const s = quizReducer(quizReducer(newRound(), action), action);
+    expect(s.score).toBe(150);
     expect(s.answers).toHaveLength(1);
   });
 
   it('после последнего вопроса раунд завершается', () => {
-    let s = createQuizState(questions);
+    let s = newRound();
     for (let i = 0; i < questions.length; i++) {
       s = quizReducer(s, { type: 'timeout' });
-      s = quizReducer(s, { type: 'next' });
+      s = quizReducer(s, { type: 'next', now: s.deadline });
     }
     expect(s.phase).toBe('finished');
   });

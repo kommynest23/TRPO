@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import styles from './Timer.module.css';
 
 interface Props {
+  deadline: number;
   durationSec: number;
   onExpire: () => void;
 }
@@ -9,10 +10,9 @@ interface Props {
 const TICK_MS = 100;
 
 /**
- * Таймер обратного отсчёта. Отсчёт идёт с момента монтирования;
- * для нового вопроса родитель пересоздаёт компонент через `key`.
+ * Таймер обратного отсчёта. Срок ответа общий для индикации и подсчёта очков.
  */
-export function Timer({ durationSec, onExpire }: Props) {
+export function Timer({ deadline, durationSec, onExpire }: Props) {
   const [remainingMs, setRemainingMs] = useState(durationSec * 1000);
   const onExpireRef = useRef(onExpire);
 
@@ -21,9 +21,8 @@ export function Timer({ durationSec, onExpire }: Props) {
   }, [onExpire]);
 
   useEffect(() => {
-    const deadline = Date.now() + durationSec * 1000;
     const id = window.setInterval(() => {
-      const left = Math.max(0, deadline - Date.now());
+      const left = Math.max(0, deadline - performance.now());
       setRemainingMs(left);
       if (left === 0) {
         window.clearInterval(id);
@@ -31,7 +30,7 @@ export function Timer({ durationSec, onExpire }: Props) {
       }
     }, TICK_MS);
     return () => window.clearInterval(id);
-  }, [durationSec]);
+  }, [deadline]);
 
   const fraction = remainingMs / (durationSec * 1000);
   const seconds = Math.ceil(remainingMs / 1000);

@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/Button';
+import { ScoringRules } from '../components/ScoringRules';
 import { ANSWER_TIME_SEC, ROUND_SIZE } from '../game/quiz';
 import { QUESTION_TYPE_LABELS } from '../types/question';
 import styles from './HomePage.module.css';
@@ -18,9 +19,16 @@ export function HomePage() {
         {ANSWER_TIME_SEC} секунд и четыре варианта ответа.
       </p>
 
-      <Button size="lg" onClick={() => navigate('/play')} autoFocus>
-        ▶ Играть
-      </Button>
+      <ScoringRules />
+
+      <div className={styles.actions}>
+        <Button size="lg" onClick={() => navigate('/play')} autoFocus>
+          ▶ Играть
+        </Button>
+        <Button size="lg" variant="secondary" onClick={() => navigate('/catalog')}>
+          Каталог викторин
+        </Button>
+      </div>
 
       <ul className={styles.types}>
         {(Object.keys(QUESTION_TYPE_LABELS) as (keyof typeof QUESTION_TYPE_LABELS)[]).map((type) => (

@@ -7,6 +7,7 @@ interface Props {
   status: RevealStatus;
   title: string;
   year: number;
+  points: number;
   /** Через сколько секунд произойдёт автопереход (для полоски прогресса). */
   durationSec: number;
   isLast: boolean;
@@ -20,11 +21,13 @@ const STATUS_TEXT: Record<RevealStatus, string> = {
 };
 
 /** Экран правильного ответа: название фильма и отсчёт до следующего вопроса. */
-export function RevealPanel({ status, title, year, durationSec, isLast, onNext }: Props) {
+export function RevealPanel({ status, title, year, points, durationSec, isLast, onNext }: Props) {
   return (
     <section className={`${styles.panel} ${styles[status]}`} aria-live="polite">
       <div className={styles.body}>
-        <p className={styles.status}>{STATUS_TEXT[status]}</p>
+        <p className={styles.status}>
+          {STATUS_TEXT[status]}{points > 0 && ` +${points} очков`}
+        </p>
         <h2 className={styles.title}>
           {title} <span className={styles.year}>({year})</span>
         </h2>

@@ -40,6 +40,23 @@ export const QUESTION_TYPE_LABELS: Record<QuestionType, string> = {
   soundtrack: 'Саундтрек',
 };
 
+export const GENRE_LABELS: Record<Genre, string> = {
+  drama: 'Драма',
+  comedy: 'Комедия',
+  action: 'Боевик',
+  'sci-fi': 'Научная фантастика',
+  fantasy: 'Фэнтези',
+  animation: 'Анимация',
+  thriller: 'Триллер',
+  crime: 'Криминал',
+};
+
+export const DIFFICULTY_LABELS: Record<Difficulty, string> = {
+  easy: 'Лёгкая',
+  medium: 'Средняя',
+  hard: 'Сложная',
+};
+
 export const QUESTION_TYPE_PROMPTS: Record<QuestionType, string> = {
   frame: 'Из какого фильма этот кадр?',
   poster: 'Чей это постер?',

@@ -41,6 +41,15 @@
   color: var(--color-text-muted);
 }
 
+.points {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.points strong {
+  color: var(--color-accent);
+}
+
 .actions {
   display: flex;
   flex-wrap: wrap;
