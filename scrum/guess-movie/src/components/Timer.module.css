@@ -1,0 +1,38 @@
+.timer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.track {
+  flex: 1;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--color-surface-2);
+  overflow: hidden;
+}
+
+.bar {
+  height: 100%;
+  background: var(--color-accent);
+  transform-origin: left center;
+  transition:
+    transform 100ms linear,
+    background-color var(--transition);
+}
+
+.urgent {
+  background: var(--color-danger);
+}
+
+.seconds {
+  min-width: 2ch;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.urgentText {
+  color: var(--color-danger);
+}

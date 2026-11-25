@@ -1,0 +1,118 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.96);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.header__inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: var(--header-height);
+}
+
+.header__logo {
+  margin-right: auto;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+}
+
+.header__logo-accent {
+  color: var(--color-accent);
+}
+
+.header__menu {
+  display: flex;
+  gap: 4px;
+}
+
+.header__link {
+  display: block;
+  padding: 10px 12px;
+  border-radius: var(--radius-small);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.header__link:hover {
+  color: var(--color-accent);
+}
+
+.header__cta {
+  flex-shrink: 0;
+}
+
+.header__burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  border: 0;
+  border-radius: var(--radius-small);
+  background: transparent;
+  cursor: pointer;
+}
+
+.header__burger-line {
+  display: block;
+  height: 2px;
+  background: var(--color-text);
+  border-radius: 2px;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.header__burger--open .header__burger-line:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.header__burger--open .header__burger-line:nth-child(2) {
+  opacity: 0;
+}
+
+.header__burger--open .header__burger-line:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+@media (max-width: 767.98px) {
+  .header__burger {
+    display: flex;
+  }
+
+  .header__cta {
+    min-height: 40px;
+    padding: 8px 14px;
+    font-size: 0.9rem;
+  }
+
+  .header__nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    padding: 8px 16px 16px;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: var(--shadow);
+  }
+
+  .header__nav--open {
+    display: block;
+  }
+
+  .header__menu {
+    flex-direction: column;
+  }
+
+  .header__link {
+    padding: 12px;
+  }
+}

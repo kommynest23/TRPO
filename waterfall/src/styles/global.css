@@ -1,0 +1,224 @@
+:root {
+  --color-bg: #f7f7fb;
+  --color-bg-alt: #eeeef6;
+  --color-surface: #ffffff;
+  --color-text: #16162a;
+  --color-muted: #55556b;
+  --color-border: #d6d6e3;
+  --color-dark: #15142b;
+  --color-accent: #cf3a1e;
+  --color-accent-hover: #b02f16;
+  --color-accent-soft: #ffe7e0;
+  --color-violet: #5b3fd6;
+  --color-error: #c0262d;
+  --color-success: #1f7a3c;
+  --color-focus: #2f5bff;
+
+  --radius: 14px;
+  --radius-small: 8px;
+  --shadow: 0 6px 24px rgba(22, 22, 42, 0.08);
+  --header-height: 64px;
+
+  --font: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+  }
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* Контейнер */
+.container {
+  width: 100%;
+  max-width: 1160px;
+  margin-inline: auto;
+  padding-inline: 16px;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding-inline: 32px;
+  }
+}
+
+/* Секции */
+.section {
+  padding-block: 56px;
+  scroll-margin-top: var(--header-height);
+}
+
+.section--alt {
+  background: var(--color-bg-alt);
+}
+
+.section__title {
+  margin-bottom: 28px;
+  font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.25rem);
+  line-height: 1.2;
+}
+
+@media (min-width: 768px) {
+  .section {
+    padding-block: 80px;
+  }
+}
+
+/* Карточка */
+.card {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* Кнопка */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 20px;
+  border: 0;
+  border-radius: 999px;
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.button--primary {
+  color: #fff;
+  background: var(--color-accent);
+}
+
+.button--primary:hover {
+  background: var(--color-accent-hover);
+}
+
+.button--large {
+  min-height: 52px;
+  padding: 14px 28px;
+  font-size: 1.05rem;
+}
+
+/* Поле формы */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field__label {
+  font-weight: 600;
+}
+
+.field__input {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-small);
+  font: inherit;
+  color: inherit;
+  background: var(--color-surface);
+}
+
+.field__input:hover {
+  border-color: #a9a9c0;
+}
+
+.field__input--short {
+  max-width: 140px;
+}
+
+.field__input--invalid,
+.field__input--invalid:hover {
+  border-color: var(--color-error);
+  background: #fff5f5;
+}
+
+.field__hint {
+  font-size: 0.9rem;
+  color: var(--color-muted);
+}
+
+.field__error {
+  font-size: 0.9rem;
+  color: var(--color-error);
+}
+
+.field__success {
+  font-size: 0.9rem;
+  color: var(--color-success);
+}
+
+/* Чекбокс с подписью */
+.check {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.check__input {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  margin: 2px 0 0;
+  accent-color: var(--color-accent);
+}
+
+.check__input[aria-invalid='true'] {
+  outline: 2px solid var(--color-error);
+  outline-offset: 1px;
+}

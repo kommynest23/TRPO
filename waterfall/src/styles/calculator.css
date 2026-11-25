@@ -1,0 +1,184 @@
+.calculator {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.calculator__fields {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.calculator__group {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.calculator__legend {
+  margin-bottom: 10px;
+  padding: 0;
+  font-weight: 600;
+}
+
+.calculator__options {
+  display: grid;
+  gap: 10px;
+}
+
+.calculator__options--plans {
+  grid-template-columns: 1fr;
+}
+
+.calculator__options--terms {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.calculator__checks {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+@media (min-width: 600px) {
+  .calculator__options--plans {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .calculator__options--terms {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .calculator {
+    grid-template-columns: minmax(0, 1.6fr) minmax(320px, 1fr);
+    gap: 40px;
+  }
+
+  .calculator__summary {
+    position: sticky;
+    top: calc(var(--header-height) + 24px);
+  }
+}
+
+/* Вариант выбора (радиокнопка-карточка) */
+.option {
+  position: relative;
+  display: block;
+  cursor: pointer;
+}
+
+.option__input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.option__box {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  height: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-small);
+  background: var(--color-surface);
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.option:hover .option__box {
+  border-color: #a9a9c0;
+}
+
+.option__input:checked + .option__box {
+  border-color: var(--color-accent);
+  background: var(--color-accent-soft);
+  box-shadow: inset 0 0 0 1px var(--color-accent);
+}
+
+.option__input:focus-visible + .option__box {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.option__title {
+  font-weight: 600;
+}
+
+.option__text {
+  font-size: 0.875rem;
+  color: var(--color-muted);
+}
+
+/* Итоговый расчёт */
+.calculator__summary {
+  padding: 24px;
+  border-radius: var(--radius);
+  color: #fff;
+  background: var(--color-dark);
+  box-shadow: var(--shadow);
+}
+
+.calculator__summary-title {
+  margin-bottom: 16px;
+  font-size: 1.2rem;
+}
+
+.calculator__note {
+  margin-top: 16px;
+  padding: 10px 12px;
+  border-radius: var(--radius-small);
+  font-size: 0.9rem;
+  color: #ffd9d4;
+  background: rgba(255, 90, 70, 0.18);
+}
+
+.breakdown {
+  margin: 0;
+}
+
+.breakdown__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding-block: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.breakdown__row dt {
+  color: #cfcbe6;
+}
+
+.breakdown__row dd {
+  margin: 0;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.breakdown__row--total {
+  padding-top: 16px;
+  border-bottom: 0;
+}
+
+.breakdown__row--total dt {
+  align-self: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.breakdown__row--total dd {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: #ff8a6b;
+}
+
+.breakdown__row--month {
+  padding-top: 0;
+  border-bottom: 0;
+}

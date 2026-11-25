@@ -1,0 +1,41 @@
+.about__list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.about__card {
+  padding: 24px;
+}
+
+.about__icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 16px;
+  padding: 10px;
+  border-radius: 12px;
+  color: var(--color-accent);
+  background: var(--color-accent-soft);
+}
+
+.about__card-title {
+  margin-bottom: 8px;
+  font-size: 1.15rem;
+}
+
+.about__card-text {
+  color: var(--color-muted);
+}
+
+@media (min-width: 600px) {
+  .about__list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .about__list {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+}

@@ -1,0 +1,38 @@
+/* Дизайн-токены: все цвета, отступы и радиусы задаются здесь. */
+:root {
+  --color-bg: #0e0d12;
+  --color-surface: #19171f;
+  --color-surface-2: #23202b;
+  --color-border: #322e3c;
+  --color-text: #f3efe6;
+  --color-text-muted: #a39fae;
+
+  --color-accent: #f2b43c;        /* «софиты» */
+  --color-accent-hover: #ffc75a;
+  --color-accent-text: #1a1305;
+
+  --color-success: #3ccf7a;
+  --color-success-bg: rgba(60, 207, 122, 0.14);
+  --color-danger: #ff5a5f;
+  --color-danger-bg: rgba(255, 90, 95, 0.14);
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+
+  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-display: Georgia, 'Times New Roman', serif;
+
+  --media-height: clamp(200px, 42vh, 440px);
+
+  --shadow-card: 0 20px 50px -20px rgba(0, 0, 0, 0.7);
+  --transition: 160ms ease;
+}

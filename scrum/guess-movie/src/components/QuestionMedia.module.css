@@ -1,0 +1,100 @@
+.frame,
+.placeholder,
+.audioBox,
+.quote {
+  width: 100%;
+  /* Фиксированная высота: вопрос целиком помещается на экране и не «прыгает». */
+  height: var(--media-height);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  background: #000;
+}
+
+.placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  color: var(--color-text-muted);
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--color-surface),
+    var(--color-surface) 14px,
+    var(--color-surface-2) 14px,
+    var(--color-surface-2) 28px
+  );
+  text-align: center;
+  padding: var(--space-4);
+}
+
+.placeholderIcon {
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+.placeholderPath {
+  font-size: 0.8rem;
+  opacity: 0.7;
+  word-break: break-all;
+}
+
+.audioBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-5);
+  padding: var(--space-5);
+  /* Снизу оставляем место под панель правильного ответа, чтобы она не закрывала плеер. */
+  padding-bottom: calc(var(--space-5) + 110px);
+}
+
+.audioIcon {
+  font-size: 4rem;
+  line-height: 1;
+  color: var(--color-accent);
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+.audio {
+  width: min(100%, 420px);
+}
+
+.quote {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.25rem, 3.5vw, 1.9rem);
+  text-align: center;
+  line-height: 1.35;
+}
+
+.quoteMark {
+  color: var(--color-accent);
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.12);
+    opacity: 1;
+  }
+}

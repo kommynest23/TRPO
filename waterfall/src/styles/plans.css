@@ -1,0 +1,80 @@
+.plans__list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.plans__card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 28px 24px;
+  border-top: 6px solid var(--color-border);
+}
+
+.plans__card--basic {
+  border-top-color: #8a8aa3;
+}
+
+.plans__card--standard {
+  border-top-color: var(--color-violet);
+}
+
+.plans__card--premium {
+  border-top-color: var(--color-accent);
+}
+
+.plans__name {
+  font-size: 1.35rem;
+}
+
+.plans__price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 4px;
+}
+
+.plans__price-value {
+  white-space: nowrap;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.plans__price-period {
+  white-space: nowrap;
+  color: var(--color-muted);
+}
+
+.plans__features {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-border);
+}
+
+.plans__feature {
+  position: relative;
+  padding-left: 28px;
+}
+
+.plans__feature::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 0.3em;
+  width: 14px;
+  height: 8px;
+  border-left: 2.5px solid var(--color-success);
+  border-bottom: 2.5px solid var(--color-success);
+  transform: rotate(-45deg);
+}
+
+@media (min-width: 768px) {
+  .plans__list {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+}

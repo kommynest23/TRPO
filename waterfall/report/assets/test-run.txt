@@ -1,0 +1,159 @@
+
+ RUN  v2.1.9 C:/Users/serez/OneDrive/Рабочий стол/учёба/6 курс/11 семестр/ТРПО/waterfall
+      Coverage enabled with v8
+
+ ✓ tests/validation.test.ts > validateTrainings — граничные значения > «0» → true
+ ✓ tests/validation.test.ts > validateTrainings — граничные значения > «1» → true
+ ✓ tests/validation.test.ts > validateTrainings — граничные значения > «19» → true
+ ✓ tests/validation.test.ts > validateTrainings — граничные значения > «20» → true
+ ✓ tests/validation.test.ts > validateTrainings — граничные значения > « 5 » → true
+ ✓ tests/validation.test.ts > validateTrainings — граничные значения > «-1» → false
+ ✓ tests/validation.test.ts > validateTrainings — граничные значения > «21» → false
+ ✓ tests/validation.test.ts > validateTrainings — граничные значения > «2.5» → false
+ ✓ tests/validation.test.ts > validateTrainings — граничные значения > «2,5» → false
+ ✓ tests/validation.test.ts > validateTrainings — граничные значения > «» → false
+ ✓ tests/validation.test.ts > validateTrainings — граничные значения > «   » → false
+ ✓ tests/validation.test.ts > validateTrainings — граничные значения > «abc» → false
+ ✓ tests/validation.test.ts > validateTrainings — граничные значения > «1e1» → false
+ ✓ tests/validation.test.ts > validateName > пустое имя — «Укажите имя»
+ ✓ tests/validation.test.ts > validateName > длина 1 → false
+ ✓ tests/validation.test.ts > validateName > длина 2 → true
+ ✓ tests/validation.test.ts > validateName > длина 50 → true
+ ✓ tests/validation.test.ts > validateName > длина 51 → false
+ ✓ tests/validation.test.ts > validateName > «Анна» — корректно
+ ✓ tests/validation.test.ts > validateName > «Anna» — корректно
+ ✓ tests/validation.test.ts > validateName > «Анна-Мария» — корректно
+ ✓ tests/validation.test.ts > validateName > «Иван Петров» — корректно
+ ✓ tests/validation.test.ts > validateName > «Пётр» — корректно
+ ✓ tests/validation.test.ts > validateName > «Mary-Jane Watson» — корректно
+ ✓ tests/validation.test.ts > validateName > пробелы по краям не учитываются в длине
+ ✓ tests/validation.test.ts > validateName > «Анна1» — недопустимые символы
+ ✓ tests/validation.test.ts > validateName > «Anna_» — недопустимые символы
+ ✓ tests/validation.test.ts > validateName > «Иван!» — недопустимые символы
+ ✓ tests/validation.test.ts > validateName > «O'Brien» — недопустимые символы
+ ✓ tests/validation.test.ts > validateName > «Ян.» — недопустимые символы
+ ✓ tests/validation.test.ts > validatePhone — граничные значения > «+7999123456» → false (9 цифр после +7)
+ ✓ tests/validation.test.ts > validatePhone — граничные значения > «+79991234567» → true (10 цифр после +7)
+ ✓ tests/validation.test.ts > validatePhone — граничные значения > «+799912345678» → false (11 цифр после +7)
+ ✓ tests/validation.test.ts > validatePhone — граничные значения > «+7 (999) 123-45-67» → true (с форматированием)
+ ✓ tests/validation.test.ts > validatePhone — граничные значения > «+7 999 123 45 67» → true (с пробелами)
+ ✓ tests/validation.test.ts > validatePhone — граничные значения > «89991234567» → false (начинается с 8)
+ ✓ tests/validation.test.ts > validatePhone — граничные значения > «+8 (999) 123-45-67» → false (код страны не +7)
+ ✓ tests/validation.test.ts > validatePhone — граничные значения > «+7 (999) 123-45-6a» → false (буква)
+ ✓ tests/validation.test.ts > validatePhone — граничные значения > «+7.999.123.45.67» → false (точки не удаляются)
+ ✓ tests/validation.test.ts > validatePhone — граничные значения > пустой телефон — «Укажите телефон»
+ ✓ tests/validation.test.ts > validateEmail > пустой email допустим (поле необязательное)
+ ✓ tests/validation.test.ts > validateEmail > «name@example.ru» — корректный
+ ✓ tests/validation.test.ts > validateEmail > «a.b-c@mail.example.com» — корректный
+ ✓ tests/validation.test.ts > validateEmail > « user@test.org » — корректный
+ ✓ tests/validation.test.ts > validateEmail > «name» — некорректный
+ ✓ tests/validation.test.ts > validateEmail > «name@» — некорректный
+ ✓ tests/validation.test.ts > validateEmail > «@example.ru» — некорректный
+ ✓ tests/validation.test.ts > validateEmail > «name@example» — некорректный
+ ✓ tests/validation.test.ts > validateEmail > «name@example.r» — некорректный
+ ✓ tests/validation.test.ts > validateEmail > «na me@example.ru» — некорректный
+ ✓ tests/validation.test.ts > validateEmail > «a@@b.ru» — некорректный
+ ✓ tests/validation.test.ts > validateConsent > отмечен — корректно
+ ✓ tests/validation.test.ts > validateConsent > не отмечен — ошибка
+ ✓ tests/validation.test.ts > validatePromoCode > «» — без ошибки
+ ✓ tests/validation.test.ts > validatePromoCode > «  » — без ошибки
+ ✓ tests/validation.test.ts > validatePromoCode > «12345» — без ошибки
+ ✓ tests/validation.test.ts > validatePromoCode > « 12345 » — без ошибки
+ ✓ tests/validation.test.ts > validatePromoCode > «1234» — «Промокод не найден»
+ ✓ tests/validation.test.ts > validatePromoCode > «54321» — «Промокод не найден»
+ ✓ tests/validation.test.ts > validatePromoCode > «PROMO» — «Промокод не найден»
+ ✓ tests/validation.test.ts > validateOrderForm > корректная форма — ошибок нет
+ ✓ tests/validation.test.ts > validateOrderForm > пустая форма — ошибки у всех обязательных полей, email не проверяется
+ ✓ tests/validation.test.ts > validateOrderForm > некорректный email попадает в ошибки
+ ✓ tests/calculator.test.ts > getTrainingPrice > 0 тренировок → 1500 ₽ за штуку
+ ✓ tests/calculator.test.ts > getTrainingPrice > 1 тренировок → 1500 ₽ за штуку
+ ✓ tests/calculator.test.ts > getTrainingPrice > 9 тренировок → 1500 ₽ за штуку
+ ✓ tests/calculator.test.ts > getTrainingPrice > 10 тренировок → 1300 ₽ за штуку
+ ✓ tests/calculator.test.ts > getTrainingPrice > 20 тренировок → 1300 ₽ за штуку
+ ✓ tests/calculator.test.ts > isPromoCodeApplied > «12345» → true
+ ✓ tests/calculator.test.ts > isPromoCodeApplied > «  12345  » → true
+ ✓ tests/calculator.test.ts > isPromoCodeApplied > «» → false
+ ✓ tests/calculator.test.ts > isPromoCodeApplied > «   » → false
+ ✓ tests/calculator.test.ts > isPromoCodeApplied > «1234» → false
+ ✓ tests/calculator.test.ts > isPromoCodeApplied > «123456» → false
+ ✓ tests/calculator.test.ts > isPromoCodeApplied > «54321» → false
+ ✓ tests/calculator.test.ts > calculatePrice — контрольные значения (п. 3.5 ТЗ) > №1: Премиум, 12 мес, промокод → NaN ₽
+ ✓ tests/calculator.test.ts > calculatePrice — контрольные значения (п. 3.5 ТЗ) > №2: Стандарт, 3 мес, шкафчик → NaN ₽
+ ✓ tests/calculator.test.ts > calculatePrice — контрольные значения (п. 3.5 ТЗ) > №3: Базовый, 1 мес, 10 тренировок → NaN ₽
+ ✓ tests/calculator.test.ts > calculatePrice — контрольные значения (п. 3.5 ТЗ) > №4: Базовый, 1 мес, 9 тренировок → NaN ₽
+ ✓ tests/calculator.test.ts > calculatePrice — контрольные значения (п. 3.5 ТЗ) > №5: Базовый, 6 мес, полотенце, промокод → NaN ₽
+ ✓ tests/calculator.test.ts > calculatePrice — контрольные значения (п. 3.5 ТЗ) > №6: Стандарт, 12 мес → NaN ₽
+ ✓ tests/calculator.test.ts > calculatePrice — каждый тариф и срок > basic, 2500 ₽/мес, 1 мес
+ ✓ tests/calculator.test.ts > calculatePrice — каждый тариф и срок > basic, 2500 ₽/мес, 3 мес
+ ✓ tests/calculator.test.ts > calculatePrice — каждый тариф и срок > basic, 2500 ₽/мес, 6 мес
+ ✓ tests/calculator.test.ts > calculatePrice — каждый тариф и срок > basic, 2500 ₽/мес, 12 мес
+ ✓ tests/calculator.test.ts > calculatePrice — каждый тариф и срок > standard, 3500 ₽/мес, 1 мес
+ ✓ tests/calculator.test.ts > calculatePrice — каждый тариф и срок > standard, 3500 ₽/мес, 3 мес
+ ✓ tests/calculator.test.ts > calculatePrice — каждый тариф и срок > standard, 3500 ₽/мес, 6 мес
+ ✓ tests/calculator.test.ts > calculatePrice — каждый тариф и срок > standard, 3500 ₽/мес, 12 мес
+ ✓ tests/calculator.test.ts > calculatePrice — каждый тариф и срок > premium, 5000 ₽/мес, 1 мес
+ ✓ tests/calculator.test.ts > calculatePrice — каждый тариф и срок > premium, 5000 ₽/мес, 3 мес
+ ✓ tests/calculator.test.ts > calculatePrice — каждый тариф и срок > premium, 5000 ₽/мес, 6 мес
+ ✓ tests/calculator.test.ts > calculatePrice — каждый тариф и срок > premium, 5000 ₽/мес, 12 мес
+ ✓ tests/calculator.test.ts > calculatePrice — доп. услуги > без доп. услуг стоимость услуг 0
+ ✓ tests/calculator.test.ts > calculatePrice — доп. услуги > шкафчик 500 ₽/мес умножается на срок и не получает скидку за срок
+ ✓ tests/calculator.test.ts > calculatePrice — доп. услуги > полотенце 300 ₽/мес умножается на срок
+ ✓ tests/calculator.test.ts > calculatePrice — доп. услуги > шкафчик и полотенце вместе — 800 ₽/мес
+ ✓ tests/calculator.test.ts > calculatePrice — тренировки > 0 тренировок — стоимость 0, цена 1 500 ₽
+ ✓ tests/calculator.test.ts > calculatePrice — тренировки > граница 9/10: 9 × 1 500 = 13 500, 10 × 1 300 = 13 000
+ ✓ tests/calculator.test.ts > calculatePrice — тренировки > 20 тренировок × 1 300 ₽
+ ✓ tests/calculator.test.ts > calculatePrice — тренировки > тренировки не получают скидку за срок
+ ✓ tests/calculator.test.ts > calculatePrice — промокод > без промокода скидка 0
+ ✓ tests/calculator.test.ts > calculatePrice — промокод > действующий промокод — 3 % на всю сумму, включая услуги и тренировки
+ ✓ tests/calculator.test.ts > calculatePrice — промокод > промокод с пробелами по краям применяется
+ ✓ tests/calculator.test.ts > calculatePrice — промокод > недействующий промокод не применяется
+ ✓ tests/calculator.test.ts > calculatePrice — промокод > стоимость в месяц считается от итога с промокодом
+ ✓ tests/calculator.test.ts > draftToConfig > корректный ввод → конфигурация с числом тренировок
+ ✓ tests/calculator.test.ts > draftToConfig > некорректные тренировки «» → null
+ ✓ tests/calculator.test.ts > draftToConfig > некорректные тренировки «-1» → null
+ ✓ tests/calculator.test.ts > draftToConfig > некорректные тренировки «21» → null
+ ✓ tests/calculator.test.ts > draftToConfig > некорректные тренировки «2.5» → null
+ ✓ tests/calculator.test.ts > draftToConfig > некорректные тренировки «abc» → null
+ ✓ tests/calculator.test.ts > getPlan > возвращает тариф по идентификатору
+ ✓ tests/calculator.test.ts > getPlan > неизвестный тариф → исключение
+ ✓ tests/format.test.ts > formatRub > 0 → «0 ₽»
+ ✓ tests/format.test.ts > formatRub > 500 → «500 ₽»
+ ✓ tests/format.test.ts > formatRub > 11475 → «11 475 ₽»
+ ✓ tests/format.test.ts > formatRub > 49470 → «49 470 ₽»
+ ✓ tests/format.test.ts > formatRub > 1234567 → «1 234 567 ₽»
+ ✓ tests/format.test.ts > formatRub > 2474.5 → «2 475 ₽»
+ ✓ tests/format.test.ts > formatRub > знак ₽ отделён неразрывным пробелом
+ ✓ tests/format.test.ts > formatMonths > 1 → «1 месяц»
+ ✓ tests/format.test.ts > formatMonths > 3 → «3 месяца»
+ ✓ tests/format.test.ts > formatMonths > 6 → «6 месяцев»
+ ✓ tests/format.test.ts > formatMonths > 12 → «12 месяцев»
+ ✓ tests/format.test.ts > formatMonths > 11 → «11 месяцев»
+ ✓ tests/format.test.ts > formatMonths > 21 → «21 месяц»
+ ✓ tests/format.test.ts > formatMonths > 22 → «22 месяца»
+ ✓ tests/format.test.ts > formatMonths > 14 → «14 месяцев»
+ ✓ tests/components/OrderForm.test.tsx > OrderForm > показывает сводку выбранного абонемента
+ ✓ tests/components/OrderForm.test.tsx > OrderForm > отмечает промокод в сводке
+ ✓ tests/components/OrderForm.test.tsx > OrderForm > пустая отправка: ошибки у обязательных полей, фокус на первом ошибочном
+ ✓ tests/components/OrderForm.test.tsx > OrderForm > ошибка появляется после потери фокуса, а не при вводе
+ ✓ tests/components/Calculator.test.tsx > Calculator > по умолчанию показывает Стандарт на 1 месяц — 3 500 ₽ 337ms
+ ✓ tests/components/Calculator.test.tsx > Calculator > пересчитывает итог при смене тарифа 317ms
+ ✓ tests/components/Calculator.test.tsx > Calculator > пересчитывает итог при смене срока и доп. услуг (контрольное значение №2)
+ ✓ tests/components/Calculator.test.tsx > Calculator > применяет промокод и показывает строку скидки (контрольное значение №1) 356ms
+ ✓ tests/components/OrderForm.test.tsx > OrderForm > корректные данные: сообщение об успехе, данные в console.log, форма очищена 895ms
+ ✓ tests/components/Calculator.test.tsx > Calculator > недействующий промокод: ошибка после потери фокуса, скидка не применяется
+ ✓ tests/components/Calculator.test.tsx > Calculator > некорректные тренировки: ошибка, итог не пересчитывается 320ms
+
+ Test Files  5 passed (5)
+      Tests  140 passed (140)
+   Start at  20:03:05
+   Duration  6.69s (transform 551ms, setup 3.45s, collect 1.35s, tests 3.51s, environment 10.24s, prepare 3.05s)
+
+ % Coverage report from v8
+---------------|---------|----------|---------|---------|-------------------
+File           | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+---------------|---------|----------|---------|---------|-------------------
+All files      |     100 |      100 |     100 |     100 |                   
+ calculator.ts |     100 |      100 |     100 |     100 |                   
+ format.ts     |     100 |      100 |     100 |     100 |                   
+ validation.ts |     100 |      100 |     100 |     100 |                   
+---------------|---------|----------|---------|---------|-------------------
